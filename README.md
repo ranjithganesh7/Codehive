@@ -1,87 +1,127 @@
-# 🛡️ CODEHIVE’25 – 3rd Place Winning Project
+# 🛡️ Terminal Launcher – CODEHIVE’25 3rd Place Project
 
-We are proud to share that our team secured **3rd Place 🥉** at **CODEHIVE’25**, the premier hackathon hosted by **Vel Tech Multi Tech**! This project showcases a cutting-edge cybersecurity solution that leverages **Moving Target Defense (MTD)** techniques and an advanced **Reverse Shell & Backdoor Detection System**.
-
----
-
-## 🔍 Project Overview
-
-Our solution is built in **two powerful stages**:
+We’re thrilled to announce that our team won **🥉 3rd Place** at **CODEHIVE’25**, the flagship hackathon hosted by **Vel Tech Multi Tech**! 🚀  
+While our original project tackled cutting-edge cybersecurity (including **Moving Target Defense**, **Reverse Shell**, and **Backdoor Detection**), this repository highlights the **Terminal Launcher** – an Electron-based desktop app designed for fast, cross-platform command-line access.
 
 ---
 
-### 💡 Stage 1: Moving Target Defense (MTD)
+## 🚀 Project Overview
 
-We tackled the challenge of static cybersecurity architectures by introducing a dynamic, multi-layered MTD system:
+The **Terminal Launcher** is a sleek, cyberpunk-styled Electron app that provides:
 
-#### ✅ Network-Level MTD
-- **IP Shuffling**: Periodically changes the system's IP address to disrupt attacker reconnaissance.
-- **Port Shuffling**: Dynamically rotates open ports to evade port-scanning tools.
-
-#### ✅ Application-Level MTD
-- **Code Randomization**: Alters the code structure in runtime, making memory-based attacks ineffective.
-
-#### ✅ Data-Level MTD
-- **Dynamic Encryption**: Changes encryption keys and algorithms on the fly.
-- **Storage Shuffling**: Periodically moves data across different storage blocks to increase unpredictability.
+- ⚙️ **Cross-platform terminal access** (CMD for Windows, Terminal for macOS, xterm/gnome-terminal for Linux)
+- 🎨 **Modern UI** inspired by hacker aesthetics
+- 🖱️ **One-click launch** of system terminal
+- 🧠 **Platform auto-detection**
+- 🌈 **Animated UI elements and responsive design**
 
 ---
 
-### 🛡 Stage 2: Reverse Shell & Backdoor Detection System
+## 🖥️ Getting Started
 
-A robust detection and defense system designed to **identify and respond to real-time threats**:
+### 🔧 1. Install Dependencies
 
-#### ✅ Process Monitoring
-- Detects unauthorized and suspicious processes.
-- Implements automated process termination for identified threats.
+Make sure you have **Node.js** and **Python 3** installed.
 
-#### ✅ Outbound Connection Tracker
-- Scans outbound traffic to detect **Command-and-Control (C2)** server communications.
-- Alerts or blocks anomalous network behavior.
+```bash
+npm install
+pip install psutil
+```
 
-#### ✅ Memory & Packet Inspection
-- Deep scans running memory for known backdoor signatures.
-- Analyzes network packets for hidden payloads or malicious intent.
+### ▶️ 2. Start in Development Mode
 
-#### ✅ Attacker Redirection
-- Neutralizes malware installations by **reversing payloads back to the attacker's system**, effectively turning the tables.
+```bash
+npm start
+```
 
----
+### 🏗️ 3. Build Windows Executable
 
-## 🚀 Built With
-
-- 🐍 Python  
-- 🖥️ Linux Shell Scripting  
-- 🔐 Scapy, psutil, netstat, iptables  
-- 🧠 Machine Learning (for anomaly detection modules)  
-- 🕸 Wireshark (packet analysis)
+```bash
+npm run dist
+```
+The distributable .exe and installer will be available in the release/ directory.
 
 ---
 
-## 🎯 Key Features
+## 🧪 Demo Features
 
-- Real-time threat detection & mitigation  
-- Adaptive and resilient architecture  
-- Minimal overhead on performance  
-- Easily integrable with enterprise systems  
+### 🛡️ Reverse Shell Detection
+- Detects suspicious outbound shell connections.
+- Displays output directly in the app interface.
+- Uses Python (psutil) for process monitoring.
 
----
-
-## 🙏 Acknowledgements
-
-We extend our sincere gratitude to:
-
-- **Vel Tech Multi Tech** – for organizing an outstanding event.  
-- Our incredible mentors and coordinators – for their guidance and encouragement throughout the journey.
+### 💀 Simulated Reverse Shell (Demo Mode)
+- Launches a local "attacker-like" shell for safe testing.
+- Helps demonstrate the app’s detection capabilities.
+- No actual remote connections are made.
 
 ---
 
-## 👏 Team Credits
+## 📁 Project Structure
 
-- 💫 **Ranjith Ganesh B**  
-- 💫 **Dharun Kumar K**  
-- 💫 **Madhavan R**  
-- 💫 **Charan P G**
+| Path/Filename   | Description                                               |
+|-----------------|-----------------------------------------------------------|
+| main.js         | Electron main process. Window creation, terminal logic, IPC communication. |
+| preload.js      | Secure context bridge for renderer ↔ main process communication. |
+| index.html      | Landing page with cyberpunk UI and navigation.            |
+| run.html        | Terminal launcher and detection interface.                |
+| detect.py       | Python script for shell detection (requires psutil).      |
+| package.json    | Project metadata, scripts, and dependencies.              |
+| node_modules/   | Auto-generated Node.js dependencies.                      |
+| release/        | Output folder for Windows builds.                         |
 
-This win was made possible through teamwork, dedication, and relentless innovation.  
-Here’s to more challenges, solutions, and success stories! 💪🔥
+---
+
+## 📸 Screenshots
+Preview the interface and features of Terminal Launcher.
+
+- 🖼️ Home Screen (Cyberpunk Style)
+  <img width="1914" height="966" alt="Screenshot 2025-07-28 003356" src="https://github.com/user-attachments/assets/a6a7c197-f5c5-4cbf-b9f7-f515840a35b1" />
+
+- 🧪 Reverse Shell Detection Output
+  <img width="1919" height="946" alt="Screenshot 2025-07-28 003409" src="https://github.com/user-attachments/assets/482f86f5-115a-4c42-b50c-0172a31fe9e9" />
+
+- 💻 Terminal Launch in Action
+![1742393300585](https://github.com/user-attachments/assets/0a97a86f-0e4d-4220-8be4-fb87ad570473)
+
+> Replace the above image links with actual screenshot URLs or local paths.
+
+---
+
+## 🛠️ Built With
+- **Electron** – for cross-platform desktop apps
+- **HTML5 + CSS3** – responsive and animated UI
+- **JavaScript** – app logic and event handling
+- **Python (psutil)** – process inspection for reverse shell detection
+
+---
+
+## 👨‍💻 Team & Credits
+- 💫 Ranjith Ganesh B
+- 💫 Dharun Kumar K
+- 💫 Madhavan R
+- 💫 Charan P G
+
+Huge thanks to Vel Tech Multi Tech for organizing CODEHIVE’25 and to our mentors for their incredible support.
+
+---
+
+## 🏆 Original Submission Highlights – CODEHIVE’25
+Our full project included:
+
+### 🔁 Moving Target Defense (MTD):
+- Dynamic IP & port shuffling
+- Code structure randomization
+- Storage pattern encryption
+
+### 🔍 Reverse Shell & Backdoor Detection:
+- Live process monitoring
+- Real-time outbound connection tracking
+- In-memory inspection and fake attacker redirection
+
+This Terminal Launcher is a updated version of Reverse Shell & Backdoor Detection which was developed during the final stages of the hackathon to showcase clean design and fast local terminal interaction.
+
+---
+
+## 📄 License
+This project is open for educational and demonstration purposes. For commercial use, please contact the authors.
