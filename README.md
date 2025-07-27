@@ -84,8 +84,6 @@ Preview the interface and features of Terminal Launcher.
 - 💻 Terminal Launch in Action
 ![1742393300585](https://github.com/user-attachments/assets/0a97a86f-0e4d-4220-8be4-fb87ad570473)
 
-> Replace the above image links with actual screenshot URLs or local paths.
-
 ---
 
 ## 🛠️ Built With
