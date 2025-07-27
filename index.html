@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal Launcher</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Fira Code", "Courier New", monospace;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            color: #00ff00;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated background grid */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 0, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .container {
+            background: rgba(26, 26, 26, 0.9);
+            border: 2px solid #00ff00;
+            border-radius: 15px;
+            padding: 3rem;
+            text-align: center;
+            box-shadow: 
+                0 0 30px rgba(0, 255, 0, 0.3),
+                inset 0 0 30px rgba(0, 255, 0, 0.1);
+            backdrop-filter: blur(10px);
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00ff00, transparent, #00ff00);
+            border-radius: 15px;
+            z-index: -1;
+            animation: borderGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes borderGlow {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .ascii-art {
+            font-size: 0.8rem;
+            line-height: 1;
+            margin-bottom: 2rem;
+            color: #00ff00;
+            opacity: 0.7;
+            white-space: pre;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px #00ff00;
+            animation: textGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes textGlow {
+            0% { text-shadow: 0 0 20px #00ff00; }
+            100% { text-shadow: 0 0 30px #00ff00, 0 0 40px #00ff00; }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            color: #00cc00;
+            opacity: 0.8;
+        }
+
+        .main-button {
+            background: linear-gradient(45deg, #003300, #006600);
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-family: inherit;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 3rem;
+        }
+
+        .main-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .main-button:hover::before {
+            left: 100%;
+        }
+
+        .main-button:hover {
+            background: linear-gradient(45deg, #006600, #00aa00);
+            box-shadow: 
+                0 0 25px rgba(0, 255, 0, 0.5),
+                inset 0 0 25px rgba(0, 255, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .team-section {
+            border-top: 1px solid rgba(0, 255, 0, 0.3);
+            padding-top: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-heading {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #00ff00;
+        }
+
+        .team-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.8rem;
+            list-style: none;
+        }
+
+        .team-member {
+            color: #00cc00;
+            font-size: 1rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            background: rgba(0, 255, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .team-member:hover {
+            background: rgba(0, 255, 0, 0.1);
+            transform: translateX(5px);
+        }
+
+        .version {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 0.8rem;
+            color: rgba(0, 255, 0, 0.5);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem;
+                margin: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .ascii-art {
+                font-size: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ascii-art">
+ ████████╗███████╗██████╗ ███╗   ███╗██╗███╗   ██╗ █████╗ ██╗     
+ ╚══██╔══╝██╔════╝██╔══██╗████╗ ████║██║████╗  ██║██╔══██╗██║     
+    ██║   █████╗  ██████╔╝██╔████╔██║██║██╔██╗ ██║███████║██║     
+    ██║   ██╔══╝  ██╔══██╗██║╚██╔╝██║██║██║╚██╗██║██╔══██║██║     
+    ██║   ███████╗██║  ██║██║ ╚═╝ ██║██║██║ ╚████║██║  ██║███████╗
+    ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝
+        </div>
+        
+        <h1>Welcome to Terminal Launcher</h1>
+        <p class="subtitle">Built for Devs, Hackers & Power Users</p>
+        
+        <a href="run.html" class="main-button">Go to Terminal Page</a>
+        
+        <div class="team-section">
+            <h3 class="team-heading">🛠 Built By</h3>
+            <ul class="team-list">
+                <li class="team-member">💫 Ranjith Ganesh B</li>
+                <li class="team-member">💫 Dharun Kumar K</li>
+                <li class="team-member">💫 Madhavan R</li>
+                <li class="team-member">💫 Charan P G</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="version">v1.0.0</div>
+    
+    <script>
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Glitch effect on title occasionally
+            const title = document.querySelector('h1');
+            setInterval(() => {
+                if (Math.random() < 0.1) {
+                    title.style.textShadow = '2px 0 #ff0000, -2px 0 #00ffff';
+                    setTimeout(() => {
+                        title.style.textShadow = '0 0 20px #00ff00';
+                    }, 100);
+                }
+            }, 3000);
+            
+            // Typing effect for subtitle
+            const subtitle = document.querySelector('.subtitle');
+            const originalText = subtitle.textContent;
+            subtitle.textContent = '';
+            let i = 0;
+            
+            setTimeout(() => {
+                const typeInterval = setInterval(() => {
+                    subtitle.textContent += originalText[i];
+                    i++;
+                    if (i >= originalText.length) {
+                        clearInterval(typeInterval);
+                    }
+                }, 100);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

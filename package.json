@@ -1,0 +1,24 @@
+{
+  "name": "terminal-launcher",
+  "version": "0.1.0",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --windows"
+  },
+  "build": {
+    "appId": "com.example.terminallauncher",
+    "productName": "Terminal Launcher",
+    "win": {
+      "target": "nsis"
+    },
+    "directories": {
+      "output": "release"
+    }
+  },
+  "devDependencies": {
+    "electron": "^29.3.0",
+    "electron-builder": "^26.0.12"
+  }
+}

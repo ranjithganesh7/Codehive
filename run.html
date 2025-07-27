@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Launch Terminal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Fira Code", "Courier New", monospace;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            color: #00ff00;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated background particles */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(2px 2px at 20px 30px, rgba(0, 255, 0, 0.3), transparent),
+                              radial-gradient(2px 2px at 40px 70px, rgba(0, 255, 0, 0.2), transparent),
+                              radial-gradient(1px 1px at 90px 40px, rgba(0, 255, 0, 0.4), transparent),
+                              radial-gradient(1px 1px at 130px 80px, rgba(0, 255, 0, 0.3), transparent);
+            background-repeat: repeat;
+            background-size: 200px 100px;
+            animation: particleFloat 15s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes particleFloat {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-200px); }
+        }
+
+        .back-link {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: #00ff00;
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(0, 255, 0, 0.5);
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            background: rgba(26, 26, 26, 0.8);
+        }
+
+        .back-link:hover {
+            background: rgba(0, 255, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+            transform: translateX(-5px);
+        }
+
+        .container {
+            background: rgba(26, 26, 26, 0.95);
+            border: 2px solid #00ff00;
+            border-radius: 20px;
+            padding: 4rem;
+            text-align: center;
+            box-shadow: 
+                0 0 40px rgba(0, 255, 0, 0.4),
+                inset 0 0 40px rgba(0, 255, 0, 0.1);
+            backdrop-filter: blur(15px);
+            max-width: 700px;
+            width: 90%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.1), transparent);
+            animation: scanLine 4s linear infinite;
+        }
+
+        @keyframes scanLine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .terminal-icon {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 25px #00ff00;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% { 
+                text-shadow: 0 0 25px #00ff00;
+                color: #00ff00;
+            }
+            100% { 
+                text-shadow: 0 0 35px #00ff00, 0 0 45px #00ff00;
+                color: #00ff88;
+            }
+        }
+
+        .instruction {
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            color: #00cc00;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .launch-button {
+            background: linear-gradient(45deg, #003300, #006600, #009900);
+            color: #00ff00;
+            border: 3px solid #00ff00;
+            padding: 1.5rem 3rem;
+            font-size: 1.3rem;
+            font-family: inherit;
+            font-weight: bold;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+        }
+
+        .launch-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(0, 255, 0, 0.3) 0%, transparent 70%);
+            transition: all 0.4s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .launch-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .launch-button:hover {
+            background: linear-gradient(45deg, #006600, #00aa00, #00dd00);
+            box-shadow: 
+                0 0 30px rgba(0, 255, 0, 0.6),
+                inset 0 0 30px rgba(0, 255, 0, 0.2);
+            transform: translateY(-3px) scale(1.05);
+            border-color: #00ff88;
+        }
+
+        .launch-button:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: #00ff00;
+            border-radius: 50%;
+            margin-right: 10px;
+            animation: blink 1.5s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+
+        .system-info {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(0, 255, 0, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 0, 0.2);
+            font-size: 0.9rem;
+            color: #00cc00;
+        }
+
+        .loading {
+            display: none;
+            margin-top: 1rem;
+            color: #00ff00;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .loading::after {
+            content: '';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 2.5rem;
+                margin: 1rem;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .launch-button {
+                padding: 1.2rem 2.5rem;
+                font-size: 1.1rem;
+            }
+            
+            .back-link {
+                top: 20px;
+                left: 20px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← Back to Home</a>
+    
+    <div class="container">
+        <div class="terminal-icon">💻</div>
+        <h1>Launch Your Terminal</h1>
+        <p class="instruction">Click below to open your system's terminal window.</p>
+        
+        <button class="launch-button" id="launchBtn" onclick="openCMD()">
+            <span class="status-indicator"></span>
+            🟢 Open CMD / Terminal
+        </button>
+        <button class="launch-button" id="detectBtn" style="margin-top: 1rem; background: linear-gradient(45deg, #222244, #006600, #004488); color: #fff; border: 3px solid #00ff88;">
+            🛡️ Detect & Kill Reverse Shell
+        </button>
+        <button class="launch-button" id="attackBtn" style="margin-top: 1rem; background: linear-gradient(45deg, #440000, #880000, #222222); color: #fff; border: 3px solid #ff5555;">
+            💀 Simulate Reverse Shell (Demo)
+        </button>
+        <div id="detectOutput" style="margin-top:2rem; background:#181818; color:#fff; padding:1rem; border-radius:10px; min-height:60px; font-family:monospace; display:none; white-space:pre-wrap; text-align:left;"></div>
+        <div class="loading" id="loadingIndicator">
+            Launching terminal<span></span>
+        </div>
+        <div class="system-info">
+            <strong>System Ready:</strong> Terminal launcher initialized<br>
+            <strong>Platform:</strong> <span id="platformInfo">Detecting...</span><br>
+            <strong>Status:</strong> <span style="color: #00ff00;">● Online</span>
+        </div>
+    </div>
+    
+    <script>
+        // Detect platform for display
+        function detectPlatform() {
+            const platform = navigator.platform.toLowerCase();
+            const userAgent = navigator.userAgent.toLowerCase();
+            
+            if (platform.includes('win') || userAgent.includes('windows')) {
+                return 'Windows (CMD)';
+            } else if (platform.includes('mac') || userAgent.includes('mac')) {
+                return 'macOS (Terminal)';
+            } else if (platform.includes('linux') || userAgent.includes('linux')) {
+                return 'Linux (Terminal)';
+            } else {
+                return 'Unknown Platform';
+            }
+        }
+        
+        // Function to simulate opening CMD/Terminal
+        function openCMD() {
+            const btn = document.getElementById('launchBtn');
+            btn.disabled = true;
+            btn.textContent = 'Launching...';
+            // Call Electron API to open terminal
+            if (window.electronAPI && window.electronAPI.openTerminal) {
+                window.electronAPI.openTerminal();
+            }
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.textContent = '🟢 Open CMD / Terminal';
+            }, 1500);
+        }
+        
+        // Initialize platform detection
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('platformInfo').textContent = detectPlatform();
+            
+            // Add some interactive effects
+            const container = document.querySelector('.container');
+            
+            // Mouse move effect
+            document.addEventListener('mousemove', (e) => {
+                const x = (e.clientX / window.innerWidth) * 100;
+                const y = (e.clientY / window.innerHeight) * 100;
+                
+                container.style.background = `
+                    radial-gradient(circle at ${x}% ${y}%, 
+                    rgba(0, 255, 0, 0.15) 0%, 
+                    rgba(26, 26, 26, 0.95) 50%)
+                `;
+            });
+            
+            // Keyboard shortcut hint
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openCMD();
+                }
+            });
+        });
+        // Detect & Kill Reverse Shell Button
+        document.addEventListener('DOMContentLoaded', function() {
+            const detectBtn = document.getElementById('detectBtn');
+            const attackBtn = document.getElementById('attackBtn');
+            const outputDiv = document.getElementById('detectOutput');
+            if (detectBtn && window.electronAPI && window.electronAPI.runDetectPy) {
+                detectBtn.onclick = async function() {
+                    outputDiv.style.display = 'block';
+                    outputDiv.textContent = 'Scanning for reverse shells...';
+                    const res = await window.electronAPI.runDetectPy('detect');
+                    outputDiv.textContent = (res.output || '') + (res.error ? '\n[stderr]\n' + res.error : '');
+                };
+            }
+            if (attackBtn && window.electronAPI && window.electronAPI.runDetectPy) {
+                attackBtn.onclick = async function() {
+                    outputDiv.style.display = 'block';
+                    outputDiv.textContent = 'Starting reverse shell (demo)...';
+                    const res = await window.electronAPI.runDetectPy('attack');
+                    outputDiv.textContent = (res.output || '') + (res.error ? '\n[stderr]\n' + res.error : '');
+                };
+            }
+        });
+    </script>
+</body>
+</html>
